@@ -1,0 +1,18 @@
+/* Education Section */
+.info-section {
+  margin-bottom: 24px;
+  text-align: left;
+}
+.info-section h3 {
+  font-size: 1.3rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.info-section p {
+  color: var(--text-color);
+  font-size: 1rem;
+  margin: 0;
+}

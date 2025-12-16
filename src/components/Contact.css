@@ -1,0 +1,36 @@
+/* Contact Section */
+.contact-section {
+  margin: 32px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: flex-start;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.contact-label {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+.contact-value {
+  color: var(--text-color);
+  font-size: 1rem;
+}
+.contact-btn {
+  padding: 6px 18px;
+  border-radius: 30px;
+  background: var(--gradient);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-left: 8px;
+}
+.contact-btn:hover {
+  background: var(--gradient-accent);
+  color: #fff;
+}

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-
+import  imgProfile from './assets/images/Norimboyev__Azizjon.jpg';
 const translations = {
   uz: {
     title: "Frontend Dasturchi",
@@ -14,7 +14,6 @@ const translations = {
     mohir: "Zamonaviy web texnologiyalari kursi",
     educationText: "U Najot Ta'lim va MohirDev kurslarida ham o'qib, o'z bilim va tajribasini yanada oshirib bormoqda",
     portfolio: "Portfolio",
-    portfolioAlert: "Portfolio sahifasi ochildi!",
     github: "GitHub",
     linkedin: "LinkedIn",
     telegram: "Telegram",
@@ -39,10 +38,6 @@ const translations = {
     emailPlaceholder: "Elektron pochtangizni kiriting",
     subjectPlaceholder: "Mavzuni kiriting",
     messagePlaceholder: "Xabaringizni kiriting",
-    emailOpened: "✉️ Email dasturi ochildi",
-    calling: "📞 Qo'ng'iroq qilinmoqda...",
-    locationAlert: "🗺️ O'zbekiston xaritasi ochilmoqda...",
-    messageSent: "✅ Xabaringiz muvaffaqiyatli yuborildi!",
   },
   ru: {
     title: "Frontend Разработчик",
@@ -56,7 +51,6 @@ const translations = {
     mohir: "Курс современных веб-технологий",
     educationText: "Он также учится на курсах Najot Ta'lim и MohirDev, продолжая повышать свои знания и опыт",
     portfolio: "Портфолио",
-    portfolioAlert: "Страница портфолио открыта!",
     github: "ГитХаб",
     linkedin: "ЛинкедИн",
     telegram: "Телеграм",
@@ -81,10 +75,6 @@ const translations = {
     emailPlaceholder: "Введите ваш email",
     subjectPlaceholder: "Введите тему",
     messagePlaceholder: "Введите ваше сообщение",
-    emailOpened: "✉️ Почтовое приложение открыто",
-    calling: "📞 Звонок осуществляется...",
-    locationAlert: "🗺️ Открывается карта Узбекистана...",
-    messageSent: "✅ Ваше сообщение успешно отправлено!",
   },
   en: {
     title: "Frontend Developer",
@@ -98,7 +88,6 @@ const translations = {
     mohir: "Modern web technologies course",
     educationText: "He is also studying at Najot Ta'lim and MohirDev courses, continuing to improve his knowledge and experience",
     portfolio: "Portfolio",
-    portfolioAlert: "Portfolio page opened!",
     github: "GitHub",
     linkedin: "LinkedIn",
     telegram: "Telegram",
@@ -123,10 +112,6 @@ const translations = {
     emailPlaceholder: "Enter your email",
     subjectPlaceholder: "Enter subject",
     messagePlaceholder: "Enter your message",
-    emailOpened: "✉️ Email app opened",
-    calling: "📞 Calling...",
-    locationAlert: "🗺️ Opening Uzbekistan map...",
-    messageSent: "✅ Your message has been sent successfully!",
   },
 };
 
@@ -135,7 +120,6 @@ function App() {
   const [language, setLanguage] = useState('uz');
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [notification, setNotification] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -160,48 +144,30 @@ function App() {
     },
   };
 
-  const t = translations[language] || translations['uz'];
-
-  const showNotification = (message, type = "success") => {
-    setNotification({ message, type });
-    setTimeout(() => setNotification(null), 3000);
-  };
+  const t = translations[language];
 
   const toggleTheme = () => {
     setDarkTheme(!darkTheme);
-    showNotification(darkTheme ? "Yorug' tema yoqildi" : "Qorong'u tema yoqildi", "success");
   };
 
   const changeLanguage = (lang) => {
     setLanguage(lang);
-    showNotification(
-      lang === 'uz' ? "O'zbek tiliga o'zgartirildi" : 
-      lang === 'ru' ? "Русский язык выбран" : 
-      "English language selected", 
-      "success"
-    );
   };
 
   const sendEmail = () => {
     window.location.href = `mailto:${userData.email}`;
-    showNotification(t.emailOpened, "success");
   };
 
   const makeCall = () => {
     window.location.href = `tel:${userData.phone}`;
-    showNotification(t.calling, "success");
   };
 
   const showLocation = () => {
-    showNotification(t.locationAlert, "success");
-    setTimeout(() => {
-      window.open(userData.locationUrl, "_blank");
-    }, 1000);
+    window.open(userData.locationUrl, "_blank");
   };
 
   const openPortfolio = () => {
     window.open(userData.portfolioUrl, '_blank');
-    showNotification(t.portfolioAlert, "success");
   };
 
   const handleInputChange = (e) => {
@@ -214,14 +180,10 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    showNotification(t.messageSent, "success");
+    alert('Xabar yuborildi!');
     setFormData({ name: '', email: '', subject: '', message: '' });
     setShowModal(false);
   };
-
-  useEffect(() => {
-    document.title = `Azizjon Norimboyev - ${t.title}`;
-  }, [t.title]);
 
   return (
     <div className={`app ${darkTheme ? 'dark-theme' : ''}`}>
@@ -231,11 +193,11 @@ function App() {
           <div className="profile-img-container">
             <div className="profile-img">
               <img
-                src="/images/Norimboyev__Azizjon.JPG"
+                src={imgProfile}
                 alt="Azizjon Norimboyev"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "https://via.placeholder.com/160x200/667eea/ffffff?text=AZ";
+                  e.target.src = "https://via.placeholder.com/150/667eea/ffffff?text=AZ";
                 }}
               />
             </div>
@@ -243,7 +205,7 @@ function App() {
           <h1 className="name">{userData.name}</h1>
           <div className="title">
             <i className="fas fa-laptop-code"></i>
-            <span className="title-text">{t.title}</span>
+            <span>{t.title}</span>
           </div>
         </div>
 
@@ -254,12 +216,12 @@ function App() {
             onClick={() => setShowInfoPanel(!showInfoPanel)}
           >
             <i className="fas fa-info-circle"></i>
-            <span className="extra-text">{t.extra}</span>
+            <span>{t.extra}</span>
           </button>
 
           <button className="theme-btn" onClick={toggleTheme}>
             <i className={`fas ${darkTheme ? 'fa-sun' : 'fa-moon'}`}></i>
-            <span className="theme-text">{t.theme}</span>
+            <span>{t.theme}</span>
           </button>
 
           <div className="language-buttons">
@@ -277,7 +239,7 @@ function App() {
 
         {/* Info Panel */}
         {showInfoPanel && (
-          <div className="info-panel show">
+          <div className="info-panel">
             <div className="info-section">
               <h3>
                 <i className="fas fa-user"></i> {t.aboutTitle}
@@ -299,38 +261,38 @@ function App() {
         {/* Social Links */}
         <div className="social-links">
           <button className="social-btn portfolio" onClick={openPortfolio}>
-            <i className="fas fa-briefcase social-icon"></i>
-            <span className="portfolio-text">{t.portfolio}</span>
+            <i className="fas fa-briefcase"></i>
+            <span>{t.portfolio}</span>
           </button>
           
           <a href={userData.links.github} target="_blank" rel="noopener noreferrer" className="social-btn github">
-            <i className="fab fa-github social-icon"></i>
-            <span className="github-text">{t.github}</span>
+            <i className="fab fa-github"></i>
+            <span>{t.github}</span>
           </a>
           
           <a href={userData.links.linkedin} target="_blank" rel="noopener noreferrer" className="social-btn linkedin">
-            <i className="fab fa-linkedin-in social-icon"></i>
-            <span className="linkedin-text">{t.linkedin}</span>
+            <i className="fab fa-linkedin-in"></i>
+            <span>{t.linkedin}</span>
           </a>
           
           <a href={userData.links.telegram} target="_blank" rel="noopener noreferrer" className="social-btn telegram">
-            <i className="fab fa-telegram social-icon"></i>
-            <span className="telegram-text">{t.telegram}</span>
+            <i className="fab fa-telegram"></i>
+            <span>{t.telegram}</span>
           </a>
           
           <a href={userData.links.instagram} target="_blank" rel="noopener noreferrer" className="social-btn instagram">
-            <i className="fab fa-instagram social-icon"></i>
-            <span className="instagram-text">{t.instagram}</span>
+            <i className="fab fa-instagram"></i>
+            <span>{t.instagram}</span>
           </a>
           
           <a href={userData.links.facebook} target="_blank" rel="noopener noreferrer" className="social-btn facebook">
-            <i className="fab fa-facebook-f social-icon"></i>
-            <span className="facebook-text">{t.facebook}</span>
+            <i className="fab fa-facebook-f"></i>
+            <span>{t.facebook}</span>
           </a>
           
           <a href={userData.links.youtube} target="_blank" rel="noopener noreferrer" className="social-btn youtube">
-            <i className="fab fa-youtube social-icon"></i>
-            <span className="youtube-text">{t.youtube}</span>
+            <i className="fab fa-youtube"></i>
+            <span>{t.youtube}</span>
           </a>
         </div>
 
@@ -341,13 +303,13 @@ function App() {
               <i className="fas fa-envelope"></i>
               <div className="contact-text">
                 <div className="contact-main">{userData.email}</div>
-                <div className="contact-sub email-sub">{t.emailSub}</div>
+                <div className="contact-sub">{t.emailSub}</div>
               </div>
             </div>
             <div className="contact-buttons">
               <button className="contact-btn email" onClick={sendEmail}>
                 <i className="fas fa-paper-plane"></i>
-                <span className="email-btn-text">{t.emailBtn}</span>
+                <span>{t.emailBtn}</span>
               </button>
             </div>
           </div>
@@ -356,14 +318,14 @@ function App() {
             <div className="contact-content">
               <i className="fas fa-phone"></i>
               <div className="contact-text">
-                <div className="contact-main phone-number">{userData.phone}</div>
-                <div className="contact-sub phone-sub">{t.phoneSub}</div>
+                <div className="contact-main">{userData.phone}</div>
+                <div className="contact-sub">{t.phoneSub}</div>
               </div>
             </div>
             <div className="contact-buttons">
               <button className="contact-btn call" onClick={makeCall}>
                 <i className="fas fa-phone"></i>
-                <span className="call-btn-text">{t.callBtn}</span>
+                <span>{t.callBtn}</span>
               </button>
             </div>
           </div>
@@ -372,14 +334,14 @@ function App() {
             <div className="contact-content">
               <i className="fas fa-map-marker-alt"></i>
               <div className="contact-text">
-                <div className="contact-main location-main">{t.locationMain}</div>
-                <div className="contact-sub location-sub">{t.locationSub}</div>
+                <div className="contact-main">{t.locationMain}</div>
+                <div className="contact-sub">{t.locationSub}</div>
               </div>
             </div>
             <div className="contact-buttons">
               <button className="contact-btn map" onClick={showLocation}>
                 <i className="fas fa-map-marked-alt"></i>
-                <span className="map-btn-text">{t.mapBtn}</span>
+                <span>{t.mapBtn}</span>
               </button>
             </div>
           </div>
@@ -389,17 +351,17 @@ function App() {
         <div className="contact-button-container">
           <button className="contact-main-btn" onClick={() => setShowModal(true)}>
             <i className="fas fa-phone-alt"></i>
-            <span className="contact-btn-text">{t.contactBtn}</span>
+            <span>{t.contactBtn}</span>
           </button>
         </div>
       </div>
 
       {/* Contact Modal */}
       {showModal && (
-        <div className="modal-overlay active" onClick={() => setShowModal(false)}>
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2 className="modal-title">{t.modalTitle}</h2>
+              <h2>{t.modalTitle}</h2>
               <button className="modal-close" onClick={() => setShowModal(false)}>
                 &times;
               </button>
@@ -407,14 +369,13 @@ function App() {
             <div className="modal-body">
               <form className="contact-form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label htmlFor="name" className="form-label">
+                  <label htmlFor="name">
                     <i className="fas fa-user"></i>
                     <span>{t.nameLabel}</span>
                   </label>
                   <input
                     type="text"
                     id="name"
-                    className="form-input"
                     placeholder={t.namePlaceholder}
                     value={formData.name}
                     onChange={handleInputChange}
@@ -422,14 +383,13 @@ function App() {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="email" className="form-label">
+                  <label htmlFor="email">
                     <i className="fas fa-envelope"></i>
                     <span>{t.emailLabel}</span>
                   </label>
                   <input
                     type="email"
                     id="email"
-                    className="form-input"
                     placeholder={t.emailPlaceholder}
                     value={formData.email}
                     onChange={handleInputChange}
@@ -437,14 +397,13 @@ function App() {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="subject" className="form-label">
+                  <label htmlFor="subject">
                     <i className="fas fa-tag"></i>
                     <span>{t.subjectLabel}</span>
                   </label>
                   <input
                     type="text"
                     id="subject"
-                    className="form-input"
                     placeholder={t.subjectPlaceholder}
                     value={formData.subject}
                     onChange={handleInputChange}
@@ -452,13 +411,12 @@ function App() {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="message" className="form-label">
+                  <label htmlFor="message">
                     <i className="fas fa-comment"></i>
                     <span>{t.messageLabel}</span>
                   </label>
                   <textarea
                     id="message"
-                    className="form-textarea"
                     placeholder={t.messagePlaceholder}
                     value={formData.message}
                     onChange={handleInputChange}
@@ -471,13 +429,6 @@ function App() {
               </form>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Notification */}
-      {notification && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
         </div>
       )}
     </div>
